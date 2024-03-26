@@ -3,6 +3,10 @@ package com.marcos.silva.rodrigues.userapi;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,67 +16,53 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController {
 
-  private static List<UserDto> usuarios = new ArrayList<UserDto>();
-
-  @PostConstruct
-  public void initializeList() {
-    UserDto userDto = new UserDto();
-    userDto.setNome("Eduardo");
-    userDto.setCpf("123");
-    userDto.setEndereco("Rua A");
-    userDto.setEmail("eduardo@email.com");
-    userDto.setTelefone("1234-5678");
-    userDto.setDataCadastro(LocalDateTime.now());
-
-    UserDto userDto2 = new UserDto();
-    userDto2.setNome("Jose");
-    userDto2.setCpf("456");
-    userDto2.setEndereco("Rua N");
-    userDto2.setEmail("jose@email.com");
-    userDto2.setTelefone("4311-5678");
-    userDto2.setDataCadastro(LocalDateTime.now());
-
-    UserDto userDto3 = new UserDto();
-    userDto3.setNome("Rose");
-    userDto3.setCpf("098");
-    userDto3.setEndereco("Rua R");
-    userDto3.setEmail("rose@email.com");
-    userDto3.setTelefone("5342-0987");
-    userDto3.setDataCadastro(LocalDateTime.now());
-
-    usuarios.add(userDto);
-    usuarios.add(userDto2);
-    usuarios.add(userDto3);
-  }
+  @Autowired
+  private final UserService userService;
 
 
   @GetMapping
-  public List<UserDto> getMessage() {
-    return usuarios;
+  public List<UserDto> getUsers() {
+    return userService.getAll();
   }
 
-  @GetMapping("/{cpf}")
-  public UserDto getUsersFiltro(@PathVariable String cpf) {
-    return usuarios
-            .stream()
-            .filter(userDto -> userDto.getCpf().equals(cpf))
-            .findFirst()
-            .orElseThrow(() -> new RuntimeException("user not found"));
+  @GetMapping("/{id}")
+  public UserDto getUserById(@PathVariable Long id) {
+    return userService.findById(id);
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public UserDto create(@RequestBody @Valid UserDto userDto) {
-    userDto.setDataCadastro(LocalDateTime.now());
-    usuarios.add(userDto);
-    return userDto;
+    return userService.save(userDto);
   }
 
-  @DeleteMapping("/{cpf}")
-  public boolean delete(@PathVariable String cpf) {
-    return usuarios.removeIf(userDto -> userDto.getCpf().equals(cpf));
+  @GetMapping("/{cpf}/cpf")
+  public UserDto getUserById(@PathVariable String cpf) {
+    return userService.findByCpf(cpf);
+  }
+
+  @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void delete(@PathVariable Long id) {
+    userService.delete(id);
+  }
+
+  @GetMapping("/search")
+  public List<UserDto> queryByName(@RequestParam(name = "nome", required = true) String nome) {
+    return userService.queryByName(nome);
+  }
+
+  @PatchMapping("/{id}")
+  public UserDto editUser(@PathVariable Long id, @RequestBody @Valid UserDto dto) {
+    return userService.editUser(id, dto);
+  }
+
+  @GetMapping("/pageable")
+  public Page<UserDto> getUsersPage(Pageable pageable) {
+    return userService.getAllPage(pageable);
   }
 
 }
