@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +50,28 @@ public class ShopService {
 
     shop = shopRepository.save(shop);
     return ShopDto.convert(shop);
+  }
+
+  public List<ShopDto> getShopByFilter(
+          LocalDate dataInicio,
+          LocalDate dataFim,
+          Float valorMinimo
+  ) {
+    List<Shop> shops = shopRepository.getShoByFilters(dataInicio, dataFim, valorMinimo);
+
+    return shops
+            .stream()
+            .map(ShopDto::convert)
+            .collect(Collectors.toList());
+  }
+
+  public ShopReportDto getReportByDate(
+          LocalDate dataInicio,
+          LocalDate dataFim
+  ) {
+    ShopReportDto reportDto = shopRepository.getReportByDate(dataInicio, dataFim);
+
+    return reportDto;
   }
 
 

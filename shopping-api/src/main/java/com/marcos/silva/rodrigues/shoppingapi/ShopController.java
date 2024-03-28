@@ -2,9 +2,11 @@ package com.marcos.silva.rodrigues.shoppingapi;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -39,6 +41,32 @@ public class ShopController {
   @ResponseStatus(HttpStatus.CREATED)
   public ShopDto create (@RequestBody ShopDto dto) {
     return shopService.save(dto);
+  }
+
+  @GetMapping("/search")
+  public List<ShopDto> getShopByFilter(
+          @RequestParam(name = "dataInicio", required = true)
+          @DateTimeFormat(pattern = "dd/MM/yyyy")
+          LocalDate dataInicio,
+          @RequestParam(name = "dataFim", required = false)
+          @DateTimeFormat(pattern = "dd/MM/yyyy")
+          LocalDate dataFim,
+          @RequestParam(name = "valorMinimo", required = false)
+          Float valorMinimo
+          ) {
+    return shopService.getShopByFilter(dataInicio, dataFim, valorMinimo);
+  }
+
+  @GetMapping("/report")
+  public ShopReportDto getReport(
+          @RequestParam(name = "dataInicio", required = true)
+          @DateTimeFormat(pattern = "dd/MM/yyyy")
+          LocalDate dataInicio,
+          @RequestParam(name = "dataFim", required = true)
+          @DateTimeFormat(pattern = "dd/MM/yyyy")
+          LocalDate dataFim
+  ) {
+    return shopService.getReportByDate(dataInicio, dataFim);
   }
 
 
