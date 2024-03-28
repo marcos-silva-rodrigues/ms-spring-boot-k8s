@@ -1,4 +1,4 @@
-package com.marcos.silva.rodrigues.productapi;
+package com.marcos.silva.rodrigues;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -16,12 +16,6 @@ public class CategoryDto {
   private Long id;
   private String nome;
 
-  public static CategoryDto convert(Category category) {
-    CategoryDto categoryDto = new CategoryDto();
-    categoryDto.setId(category.getId());
-    categoryDto.setNome(category.getNome());
 
-    return categoryDto;
-  }
 
 }

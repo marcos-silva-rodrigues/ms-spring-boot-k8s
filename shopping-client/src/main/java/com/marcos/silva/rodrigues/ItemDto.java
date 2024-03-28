@@ -1,4 +1,4 @@
-package com.marcos.silva.rodrigues.shoppingapi;
+package com.marcos.silva.rodrigues;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,11 +19,6 @@ public class ItemDto {
   @NotNull
   private Float price;
 
-  public static ItemDto convert(Item item) {
-    ItemDto dto = new ItemDto();
-    dto.setPrice(item.getPrice());
-    dto.setProductIdentifier(item.getProductIdentifier());
-    return dto;
-  }
+
 
 }

@@ -1,4 +1,4 @@
-package com.marcos.silva.rodrigues.shoppingapi;
+package com.marcos.silva.rodrigues;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +9,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -29,13 +28,5 @@ public class ShopDto {
   @NotNull
   private List<ItemDto> items;
 
-  public static ShopDto convert(Shop shop) {
-    ShopDto dto = new ShopDto();
-    dto.setUserIdentifier(shop.getUserIdentifier());
-    dto.setTotal(shop.getTotal());
-    dto.setDate(shop.getDate());
-    dto.setItems(shop.getItems().stream().map(ItemDto::convert).collect(Collectors.toList()));
 
-    return dto;
-  }
 }

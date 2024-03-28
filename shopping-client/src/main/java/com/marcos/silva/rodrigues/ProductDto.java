@@ -1,4 +1,4 @@
-package com.marcos.silva.rodrigues.productapi;
+package com.marcos.silva.rodrigues;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,22 +28,7 @@ public class ProductDto {
   @NotNull
   private CategoryDto categoryDto;
 
-  public static ProductDto convert(Product product) {
-    ProductDto dto = new ProductDto();
 
-    dto.setNome(product.getNome());
-    dto.setDescricao(product.getDescricao());
-    dto.setProductIdentifier(product.getProductIdentifier());
-    dto.setPreco(product.getPreco());
-
-    if (product.getCategory() != null) {
-      dto.setCategoryDto(
-              CategoryDto.convert(product.getCategory()));
-
-    }
-
-    return dto;
-  }
 
 
 }

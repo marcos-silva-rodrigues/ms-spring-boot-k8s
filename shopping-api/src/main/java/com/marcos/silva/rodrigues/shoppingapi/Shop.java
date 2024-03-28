@@ -28,17 +28,5 @@ public class Shop {
   @CollectionTable(name = "item", joinColumns = @JoinColumn(name = "shop_id"))
   private List<Item> items;
 
-  public static Shop convert(ShopDto dto) {
-    Shop shop = new Shop();
-    shop.setUserIdentifier(dto.getUserIdentifier());
-    shop.setTotal(dto.getTotal());
-    shop.setDate(dto.getDate());
-    shop.setItems(dto
-            .getItems()
-            .stream()
-            .map(Item::convert)
-            .collect(Collectors.toList()));
 
-    return shop;
-  }
 }

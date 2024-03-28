@@ -10,6 +10,7 @@
         <module name="product-api" />
         <module name="user-api" />
         <module name="shopping-api" />
+        <module name="shopping-client" />
       </profile>
     </annotationProcessing>
   </component>
@@ -17,6 +18,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="product-api" options="-parameters" />
       <module name="shopping-api" options="-parameters" />
+      <module name="shopping-client" options="-parameters" />
       <module name="user-api" options="-parameters" />
     </option>
   </component>
