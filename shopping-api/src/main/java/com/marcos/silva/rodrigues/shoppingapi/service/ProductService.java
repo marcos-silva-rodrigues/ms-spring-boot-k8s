@@ -1,6 +1,7 @@
 package com.marcos.silva.rodrigues.shoppingapi.service;
 
 import com.marcos.silva.rodrigues.dto.ProductDto;
+import com.marcos.silva.rodrigues.exception.ProductNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -23,7 +24,7 @@ public class ProductService {
 
       return product.block();
     } catch (Exception e) {
-      throw new RuntimeException("Product not found");
+      throw new ProductNotFoundException();
     }
   }
 }

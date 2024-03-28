@@ -1,6 +1,7 @@
 package com.marcos.silva.rodrigues.shoppingapi.service;
 
 import com.marcos.silva.rodrigues.dto.UserDto;
+import com.marcos.silva.rodrigues.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -22,7 +23,7 @@ public class UserService {
               .bodyToMono(UserDto.class);
       return  user.block();
     } catch (Exception e) {
-      throw new RuntimeException("User not found");
+      throw new UserNotFoundException();
     }
   }
 }

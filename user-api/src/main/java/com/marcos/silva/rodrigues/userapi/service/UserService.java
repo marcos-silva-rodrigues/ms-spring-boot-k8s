@@ -1,6 +1,7 @@
 package com.marcos.silva.rodrigues.userapi.service;
 
 import com.marcos.silva.rodrigues.dto.UserDto;
+import com.marcos.silva.rodrigues.exception.UserNotFoundException;
 import com.marcos.silva.rodrigues.userapi.model.User;
 import com.marcos.silva.rodrigues.userapi.repository.UserRepository;
 import com.marcos.silva.rodrigues.userapi.utils.DtoConverter;
@@ -56,7 +57,7 @@ public class UserService {
 
     }
 
-    return null;
+    throw new UserNotFoundException();
   }
 
   public List<UserDto> queryByName(String name) {

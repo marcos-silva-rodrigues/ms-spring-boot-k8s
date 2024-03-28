@@ -1,7 +1,10 @@
 package com.marcos.silva.rodrigues.productapi.service;
 
 import com.marcos.silva.rodrigues.dto.ProductDto;
+import com.marcos.silva.rodrigues.exception.CategoryNotFoundException;
+import com.marcos.silva.rodrigues.exception.ProductNotFoundException;
 import com.marcos.silva.rodrigues.productapi.model.Product;
+import com.marcos.silva.rodrigues.productapi.repository.CategoryRepository;
 import com.marcos.silva.rodrigues.productapi.repository.ProductRepository;
 import com.marcos.silva.rodrigues.productapi.utils.DtoConverter;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ import java.util.stream.Collectors;
 public class ProductService {
 
   private final ProductRepository productRepository;
+  private final CategoryRepository categoryRepository;
 
   public List<ProductDto> getAll() {
     List<Product> products = productRepository.findAll();
@@ -48,10 +52,14 @@ public class ProductService {
       return DtoConverter.convert(product);
     }
 
-    return null;
+    throw new ProductNotFoundException();
   }
 
   public ProductDto save(ProductDto dto) {
+    boolean existsCategory = categoryRepository.existsById(dto.getCategoryDto().getId());
+    if (!existsCategory) {
+      throw new CategoryNotFoundException();
+    }
     Product product = productRepository.save(DtoConverter.convert(dto));
     return DtoConverter.convert(product);
   }
@@ -59,13 +67,17 @@ public class ProductService {
 
   public void delete(Long productId) {
     Optional<Product> product = productRepository.findById(productId);
-    product.ifPresent(productRepository::delete);
+    if (product.isPresent()) {
+      productRepository.delete(product.get());
+    } else {
+      throw new ProductNotFoundException();
+    }
   }
 
   public ProductDto editProduct(Long id, ProductDto dto) {
    Product product = productRepository
            .findById(id)
-           .orElseThrow(() -> new RuntimeException("product not found"));
+           .orElseThrow(ProductNotFoundException::new);
 
     if (dto.getNome() != null && !dto.getNome().isEmpty()) {
       product.setNome(dto.getNome());
