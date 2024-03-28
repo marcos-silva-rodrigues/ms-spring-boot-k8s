@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +38,7 @@ public class UserService {
   }
 
   public UserDto save(UserDto dto) {
+    dto.setKey(UUID.randomUUID().toString());
     dto.setDataCadastro(LocalDateTime.now());
     User user = userRepository.save(DtoConverter.convert(dto));
     return DtoConverter.convert(user);
@@ -49,8 +51,8 @@ public class UserService {
     return DtoConverter.convert(user);
   }
 
-  public UserDto findByCpf(String cpf) {
-    User u = userRepository.findByCpf(cpf);
+  public UserDto findByCpfAndKey(String cpf, String key) {
+    User u = userRepository.findByCpfAndKey(cpf, key);
 
     if (u != null) {
       return DtoConverter.convert(u);

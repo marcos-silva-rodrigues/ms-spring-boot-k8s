@@ -20,6 +20,7 @@ public class UserDto {
   @NotBlank(message = "Cpf é obrigatório")
   private String cpf;
   private String endereco;
+  private String key;
   @NotBlank(message = "Email é obrigatório")
   private String email;
   private String telefone;

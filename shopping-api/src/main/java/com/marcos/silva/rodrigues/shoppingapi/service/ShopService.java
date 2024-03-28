@@ -1,9 +1,7 @@
 package com.marcos.silva.rodrigues.shoppingapi.service;
 
-import com.marcos.silva.rodrigues.dto.ItemDto;
-import com.marcos.silva.rodrigues.dto.ProductDto;
-import com.marcos.silva.rodrigues.dto.ShopDto;
-import com.marcos.silva.rodrigues.dto.ShopReportDto;
+import com.marcos.silva.rodrigues.dto.*;
+import com.marcos.silva.rodrigues.exception.ProductNotFoundException;
 import com.marcos.silva.rodrigues.shoppingapi.model.Shop;
 import com.marcos.silva.rodrigues.shoppingapi.repository.ShopRepository;
 import com.marcos.silva.rodrigues.shoppingapi.utils.DtoConverter;
@@ -45,14 +43,10 @@ public class ShopService {
     return optionalShop.map(DtoConverter::convert).orElse(null);
   }
 
-  public ShopDto save(ShopDto dto) {
-    if (userService.getUserByCpf(dto.getUserIdentifier()) == null) {
-      return null;
-    }
+  public ShopDto save(ShopDto dto, String key) {
+    UserDto user = userService.getUserByCpfAndKey(dto.getUserIdentifier(), key);
 
-    if(!validateProducts(dto.getItems())) {
-      return null;
-    }
+    validateProducts(dto.getItems());
 
     dto.setTotal(
             dto.getItems()
@@ -67,18 +61,17 @@ public class ShopService {
     return DtoConverter.convert(shop);
   }
 
-  private boolean validateProducts(List<ItemDto> itemDtos) {
+  private void validateProducts(List<ItemDto> itemDtos) {
     for (ItemDto dto : itemDtos) {
       ProductDto productDto = productService
               .getProductByIdentifier(dto.getProductIdentifier());
       if(productDto == null) {
-        return false;
+        throw  new ProductNotFoundException();
       }
 
       dto.setPrice(productDto.getPreco());
     }
 
-    return true;
   }
 
 

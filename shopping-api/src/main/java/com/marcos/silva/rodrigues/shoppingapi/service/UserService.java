@@ -11,14 +11,14 @@ public class UserService {
 
   private static final String userApiUrl = "http://localhost:8080";
 
-  public UserDto getUserByCpf(String cpf) {
+  public UserDto getUserByCpfAndKey(String cpf, String key) {
     try {
       WebClient webClient = WebClient.builder()
               .baseUrl(userApiUrl)
               .build();
 
       Mono<UserDto> user = webClient.get()
-              .uri("/user/" + cpf + "/cpf")
+              .uri("/user/" + cpf + "/cpf?key=" + key)
               .retrieve()
               .bodyToMono(UserDto.class);
       return  user.block();

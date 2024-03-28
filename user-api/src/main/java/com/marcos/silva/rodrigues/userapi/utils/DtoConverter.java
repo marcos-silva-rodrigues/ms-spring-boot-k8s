@@ -10,6 +10,7 @@ public class DtoConverter {
     dto.setNome(u.getNome());
     dto.setCpf(u.getCpf());
     dto.setEndereco(u.getEndereco());
+    dto.setKey(u.getKey());
     dto.setEmail(u.getEmail());
     dto.setTelefone(u.getTelefone());
     dto.setDataCadastro(u.getDataCadastro());
@@ -22,6 +23,7 @@ public class DtoConverter {
     u.setNome(dto.getNome());
     u.setCpf(dto.getCpf());
     u.setEndereco(dto.getEndereco());
+    u.setKey(dto.getKey());
     u.setEmail(dto.getEmail());
     u.setTelefone(dto.getTelefone());
     u.setDataCadastro(dto.getDataCadastro());
