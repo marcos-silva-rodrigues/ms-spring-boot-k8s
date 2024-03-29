@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/product-api/pom.xml" />
         <option value="$PROJECT_DIR$/shopping-api/pom.xml" />
         <option value="$PROJECT_DIR$/shopping-client/pom.xml" />
+        <option value="$PROJECT_DIR$/gateway-api/pom.xml" />
       </list>
     </option>
     <option name="workspaceImportForciblyTurnedOn" value="true" />
