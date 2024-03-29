@@ -75,6 +75,6 @@ public class UserServiceTest {
 
     UserDto user = userService.editUser(1L, userDto);
     Assertions.assertEquals("Novo endereco", user.getEndereco());
-    Assertions.assertEquals("1234", user.getTelefone());
+    Assertions.assertEquals("91111-1111", user.getTelefone());
   }
 }

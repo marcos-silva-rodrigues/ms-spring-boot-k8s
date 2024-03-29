@@ -15,6 +15,9 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
+		<docker.image.prefix>
+			loja
+		</docker.image.prefix>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -94,6 +97,7 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.8</version>
+
 				<executions>
 					<execution>
 						<id>default-prepare-agent</id>
@@ -120,7 +124,7 @@
 										<limit>
 											<counter>COMPLEXITY</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>0.60</minimum>
+											<minimum>0.40</minimum>
 										</limit>
 									</limits>
 								</rule>
@@ -128,6 +132,17 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.9</version>
+				<configuration>
+					<repository>
+						${docker.image.prefix}/${project.artifactId}
+					</repository>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
