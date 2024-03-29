@@ -2,6 +2,7 @@ package com.marcos.silva.rodrigues.shoppingapi.service;
 
 import com.marcos.silva.rodrigues.dto.ProductDto;
 import com.marcos.silva.rodrigues.exception.ProductNotFoundException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -9,7 +10,8 @@ import reactor.core.publisher.Mono;
 @Service
 public class ProductService {
 
-  private static final String productApiUrl = "http://localhost:8081";
+  @Value("${PRODUCT_API_URL:http://localhost:54880}")
+  private String productApiUrl;
 
   public ProductDto getProductByIdentifier(String productIdentifier) {
     try {

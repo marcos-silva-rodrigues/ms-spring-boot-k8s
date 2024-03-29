@@ -33,7 +33,7 @@ class ProductServiceTest {
     mockBackend.start();
 
     String baseUrl = String.format("http://localhost:%s", mockBackend.getPort());
-    ReflectionTestUtils.setField(productService, "productApiURL", baseUrl);
+    ReflectionTestUtils.setField(productService, "productApiUrl", baseUrl);
   }
 
   @AfterEach
